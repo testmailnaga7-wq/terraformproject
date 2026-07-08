@@ -22,7 +22,7 @@ jobs:
       - name: download the code 
         uses: actions/checkout@v4
       - name: Installation of terraform on ubuntu-latest
-        uses: hashicorp/setup-terraform@v7.0.0
+        uses: hashicorp/setup-terraform@v4
         with:
              terraform_version: "1.14.6"
       - run: terraform init                 
