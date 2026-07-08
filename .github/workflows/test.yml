@@ -1,0 +1,49 @@
+name: Java Maven Build
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+jobs:
+  mybuild:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Check Java Version
+        run: java --version
+
+      - name: Install Maven
+        run: |
+          sudo apt update
+          sudo apt install -y maven
+
+      - name: Check Maven Version
+        run: mvn --version
+
+      - name: Build WAR File
+        run: mvn clean package
+
+      - name: Run Test Cases
+        run: mvn test
+
+      - name: Check Target Folder
+        run: ls -ltr target
+
+      - name: Upload WAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: target/*.war
